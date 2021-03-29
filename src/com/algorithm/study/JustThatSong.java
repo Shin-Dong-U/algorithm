@@ -90,16 +90,17 @@ public class JustThatSong {
 			title = infoList.get(i)[2];
 			melody = infoList.get(i)[3];
 			
-			melody = convertSharpScaleStr(melody);//A# B# 등 -> a b 로 치환
-			
 			playTime = getPlayTime(startTime, endTime);
-			playedMelody = getPlayedMelody(melody, playTime);
 			
-			if(isThisSong(m, playedMelody)) {//멜로디가 일치한다면
-				if(playTime > maxPlayTime) {//가장 긴 재생시간 선택 (가장 긴 재생시간이 복수의 값이라면 앞 순번 선택 됨) 
-					maxPlayTime = playTime;
-					res = title;
-				}
+			//일치하는 멜로디 존재 시 플레이 시간이 짧은 곡은 건너뛴다.  
+			if( playTime <= maxPlayTime ) { continue; } 
+			
+			melody = convertSharpScaleStr(melody);//A# B# 등 -> a b 로 치환
+			playedMelody = getPlayedMelody(melody, playTime);//재생 된 멜로디 
+			
+			if(isThisSong(m, playedMelody)) {
+				maxPlayTime = playTime;
+				res = title;
 			}
 		}
 		
